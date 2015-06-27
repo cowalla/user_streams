@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "Append",
+  "description": "Append to current Page",
+  "version": "2.0",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": ["stylesheet.css"],
+      "js": ["jquery-2.1.1.js", "script.js"]
+    }
+  ],
+  "web_accessible_resources": ["postform.html"],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Append"
+  }
+}
+
