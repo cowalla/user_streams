@@ -1,24 +1,26 @@
 var oUrl = 'https://evening-mountain-7853.herokuapp.com/streams/';
 var localUrl = 'https://localhost:4000/streams/';
 var uUrl = function(user_key){
-    return localUrl + user_key + '/stream_info_user';
+    return oUrl + user_key + '/stream_info_user/';
 };
 
 var session = function(i, p) {
+    console.log(i, p);
     return {
-        'current_position': parseInt(i.getAttribute('aria-valuenow')),
+        'current_position': parseInt(i[0].getAttribute('aria-valuenow')),
         'time': Math.floor(Date.now()),
-        'url': p.href
+        'url': p[0].href.split('/').pop()
     }
 };
 var postIt = function(infoElt, progressElt) {
+    var context = JSON.stringify(session(infoElt, progressElt));
+    console.log(context);
     $.ajax(
         {
             type: 'POST',
             url: uUrl(1),
-            data: session(infoElt, progressElt),
+            data: context,
             success: function(data) {
-                console.log(data);
             }
         }
     );
@@ -26,9 +28,9 @@ var postIt = function(infoElt, progressElt) {
 
 $(document).ready(function(){
     var func = function(){
-        var soundProgress = $('.playbackTimeline__progressWrapper')[0];
-        var soundInfo = $('.playbackSoundBadge__avatar')[0];
-        postIt(soundInfo, soundProgress)
+        var soundProgress = $('.playbackTimeline__progressWrapper');
+        var soundInfo = $('.playbackSoundBadge__title')
+        postIt(soundProgress, soundInfo)
     };
 
     setInterval(func, 1000);
