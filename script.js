@@ -1,8 +1,10 @@
 var oUrl = 'https://evening-mountain-7853.herokuapp.com/streams';
-var localUrl = 'https://localhost:8000/streams/users';
+var localUrl = 'https://localhost:4000/streams/users';
 var uUrl = function(){
-    return oUrl + '/post_stream_info/';
+    return localUrl + '/post_stream_info/';
 };
+
+var offset = 0;
 
 var session = function(i, p) {
     if(!i||!p){
@@ -10,7 +12,7 @@ var session = function(i, p) {
     }
 
     return {
-        'p': parseInt(i[0].getAttribute('aria-valuenow')),
+        'p': parseInt(i[0].getAttribute('aria-valuenow')) + offset,
         't': Math.floor(Date.now()),
         'song_title': p[0].href.split('/').pop()
     }
