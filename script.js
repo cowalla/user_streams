@@ -1,5 +1,5 @@
 var oUrl = 'https://evening-mountain-7853.herokuapp.com/streams';
-var localUrl = 'https://localhost:4000/streams/users';
+var localUrl = 'https://localhost/streams';
 var uUrl = function(){
     return localUrl + '/post_stream_info/';
 };
@@ -28,25 +28,15 @@ var postIt = function(infoElt, progressElt) {
                 data: context,
                 success: function(data) {
                     console.log(data);
-                }
+                },
+                error: function(ts) { document.body.innerHTML = ts.responseText }
             }
         );
     }
 };
 
-var getToken = function() {
-    $.ajax(
-        {
-            type: 'GET',
-            url: 'https://localhost:8000/streams/token/',
-            success: function(data) {
-                window.stored_cookie = JSON.parse(data);
-            }
-        }
-    );
-};
-
 $(document).ready(function(){
+
     var func = function(){
         var soundProgress = $('.playbackTimeline__progressWrapper');
         var soundInfo = $('.playbackSoundBadge__title');
