@@ -19,7 +19,7 @@ var session = function(i, p) {
 };
 var postIt = function(infoElt, progressElt) {
     var context = session(infoElt, progressElt);
-    console.log(context);
+
     if(context){
         $.ajax(
             {
@@ -29,20 +29,18 @@ var postIt = function(infoElt, progressElt) {
                 success: function(data) {
                     console.log(data);
                 },
-                error: function(ts) { document.body.innerHTML = ts.responseText }
+                error: function(ts) { console.log('error'); }
             }
         );
     }
 };
 
 $(document).ready(function(){
-
     var func = function(){
         var soundProgress = $('.playbackTimeline__progressWrapper');
         var soundInfo = $('.playbackSoundBadge__title');
         postIt(soundProgress, soundInfo)
     };
-
     setInterval(func, 4000);
 }
 );
