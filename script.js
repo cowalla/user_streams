@@ -29,7 +29,7 @@ var postIt = function(infoElt, progressElt) {
                 success: function(data) {
                     console.log(data);
                 },
-                error: function(ts) { console.log('error'); }
+                error: function(XMLHttpRequest, textStatus, errorThrown) { debugger; }
             }
         );
     }
