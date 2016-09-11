@@ -1,20 +1,24 @@
-var oUrl = 'https://evening-mountain-7853.herokuapp.com/streams';
+var oUrl = 'https://localhost/streams';
 var localUrl = 'https://localhost/streams';
+var SOUNDCLOUD_URL = 'soundcloud.com';
 var uUrl = function(){
-    return localUrl + '/post_stream_info/';
+    return oUrl + '/post_stream_info/';
 };
 
 var offset = 0;
 
+var onSoundCloud = function(){return window.location.hostname == SOUNDCLOUD_URL};
+
 var session = function(i, p) {
-    if(!i||!p){
-        return {}
+    if(!onSoundCloud() || !i[0] || !p[0]) {
+        return false
     }
 
     return {
         'p': parseInt(i[0].getAttribute('aria-valuenow')) + offset,
         't': Math.floor(Date.now()),
-        'song_title': p[0].href.split('/').pop()
+        'title': p[0].href.split('/').pop(),
+        'url': p[0].href
     }
 };
 var postIt = function(infoElt, progressElt) {
@@ -29,7 +33,7 @@ var postIt = function(infoElt, progressElt) {
                 success: function(data) {
                     console.log(data);
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) { debugger; }
+                error: function(XMLHttpRequest, textStatus, errorThrown) { console.log(XMLHttpRequest.responseText) }
             }
         );
     }
@@ -41,6 +45,9 @@ $(document).ready(function(){
         var soundInfo = $('.playbackSoundBadge__title');
         postIt(soundProgress, soundInfo)
     };
-    setInterval(func, 4000);
+    if(onSoundCloud()){
+        console.log('STARTING MASTER HEARTBEAT');
+        setInterval(func, 3000);
+    }
 }
 );
